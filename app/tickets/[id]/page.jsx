@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 
 // static rendering
 
-export const dynamicParams = true; // if a request is made for an id that doesn't exist in the statically generated page, Next returns 404. Default is true. If true is set, Next generates a new page with the id if data exists for it
+export const dynamicParams = true; // if a request is made for an id that doesn't exist in the statically generated page, Next returns 404 if dynamicParams is false. Default is true. If true is set, Next generates a new page with the id if data exists for it
 
 export async function generateStaticParams() {
 	const res = await fetch(`http://localhost:4000/tickets`);
@@ -12,7 +12,7 @@ export async function generateStaticParams() {
 }
 
 async function getTicket(id) {
-    await new Promise(resolve => setTimeout(resolve, 3000))
+	await new Promise((resolve) => setTimeout(resolve, 3000));
 	const res = await fetch(`http://localhost:4000/tickets/${id}`, {
 		next: {
 			revalidate: 60,
@@ -29,7 +29,6 @@ async function getTicket(id) {
 export default async function TicketDetails({ params }) {
 	const id = params?.id;
 	const ticket = await getTicket(id);
-	console.log(ticket);
 	return (
 		<main>
 			<nav>
